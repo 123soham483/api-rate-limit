@@ -14,15 +14,17 @@ const server = http.createServer(app);
 const trafficHistory = [];
 const MAX_HISTORY = 100;
 
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:8080';
+
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:8080',
+        origin: FRONTEND_URL,
         methods: ['GET', 'POST', 'PUT', 'DELETE']
     }
 });
 
 // Configure express
-app.use(cors({ origin: 'http://localhost:8080' }));
+app.use(cors({ origin: FRONTEND_URL }));
 app.use(express.json());
 
 // Expose io to routes/middleware
