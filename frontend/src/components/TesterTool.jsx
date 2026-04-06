@@ -9,7 +9,9 @@ const TesterTool = ({ apiUrl }) => {
         setLoadingRoute(route);
         try {
             const isPost = route === '/login';
-            const response = await fetch(`${apiUrl}${route}`, {
+            // Use VITE_API_URL if present, otherwise fallback to prop apiUrl, otherwise fallback to local dev default
+            const baseUrl = import.meta.env.VITE_API_URL || apiUrl || 'http://localhost:5000';
+            const response = await fetch(`${baseUrl}${route}`, {
         method: isPost ? 'POST' : 'GET',
         headers: { 'Content-Type': 'application/json' },
         ...(isPost && { body: JSON.stringify({ user: 'test' }) }),
