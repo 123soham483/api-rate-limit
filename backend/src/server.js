@@ -14,15 +14,18 @@ const server = http.createServer(app);
 const trafficHistory = [];
 const MAX_HISTORY = 100;
 
+// Use FRONTEND_URL in production (Railway), fall back to localhost for local dev
+const FRONTEND_ORIGIN = process.env.FRONTEND_URL || 'http://localhost:8080';
+
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:8080',
+        origin: FRONTEND_ORIGIN,
         methods: ['GET', 'POST', 'PUT', 'DELETE']
     }
 });
 
 // Configure express
-app.use(cors({ origin: 'http://localhost:8080' }));
+app.use(cors({ origin: FRONTEND_ORIGIN }));
 app.use(express.json());
 
 // Expose io to routes/middleware
